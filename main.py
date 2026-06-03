@@ -111,3 +111,70 @@ for i, col in enumerate(cont_cols):
 
 plt.tight_layout()
 plt.show()
+
+
+# categorical variables: bar charts wtih count labels:
+fig, axes = plt.subplots(2,3, figsize=(18,11))
+fig.suptitle('Univariate Analysis - Cateogrical Variables', fontsize=14, fontweight='bold', y = 1.01)
+axes = axes.flatten()
+
+# Gender
+ax = axes[0]
+vc = df['Gender'].value_counts().sort_index()
+bars = ax.bar(['Male (0)', 'Female (1)'], vc.values, color=[BLUE, PURPLE], edgecolor='white', width=0.5)
+ax.bar_label(bars, labels=[f'{v:,}\n({v/len(df)*100:.1f}%)' for v in vc.values],padding=4,fontsize=10,fontweight='bold')
+ax.set_title('Gender Distribution')
+ax.set_ylabel('Count'); ax.set_ylim(0,max(vc.values)*1.2)
+
+# Education level
+ax = axes[1]
+vc = df['Education_Level'].value_counts().sort_index()
+bars = ax.bar(['10+  (0)', '12+  (1)', 'Graduate (2)'], vc.values,
+              color=[AMBER, GREEN, BLUE], edgecolor='white', width=0.5)
+ax.bar_label(bars, labels=[f'{v:,}\n({v/len(df)*100:.1f}%)' for v in vc.values],
+             padding=4, fontsize=10, fontweight='bold')
+ax.set_title('Education Level Distribution')
+ax.set_ylabel('Count'); ax.set_ylim(0, max(vc.values)*1.2)
+
+# Joining Designation
+ax = axes[2]
+vc = df['Joining Designation'].value_counts().sort_index()
+bars = ax.bar([str(k) for k in vc.index], vc.values,
+              color=PAL[:len(vc)], edgecolor='white', width=0.6)
+ax.bar_label(bars, labels=[f'{v:,}' for v in vc.values],
+             padding=4, fontsize=9, fontweight='bold')
+ax.set_title('Joining Designation Distribution')
+ax.set_xlabel('Designation Level'); ax.set_ylabel('Count')
+
+# Grade 
+ax = axes[3]
+vc = df['Grade'].value_counts().sort_index()
+bars = ax.bar([str(k) for k in vc.index], vc.values,
+              color=PAL[:len(vc)], edgecolor='white', width=0.6)
+ax.bar_label(bars, labels=[f'{v:,}' for v in vc.values],
+             padding=4, fontsize=9, fontweight='bold')
+ax.set_title('Grade Distribution')
+ax.set_xlabel('Grade Level'); ax.set_ylabel('Count')
+
+# Quarterly Rating 
+ax = axes[4]
+vc = df['Quarterly Rating'].value_counts().sort_index()
+bars = ax.bar([str(k) for k in vc.index], vc.values,
+              color=[RED, AMBER, GREEN, BLUE], edgecolor='white', width=0.5)
+ax.bar_label(bars, labels=[f'{v:,}\n({v/len(df)*100:.1f}%)' for v in vc.values],
+             padding=4, fontsize=7, fontweight='bold')
+ax.set_title('Quarterly Rating Distribution (1=Low, 4=High)')
+ax.set_xlabel('Quarterly Rating'); ax.set_ylabel('Count')
+
+# Top 10 Cities 
+ax = axes[5]
+top_cities = df['City'].value_counts().head(10)
+bars = ax.bar(top_cities.index.astype(str), top_cities.values,
+              color=PURPLE, edgecolor='white', alpha=0.85)
+ax.bar_label(bars, labels=[f'{v:,}' for v in top_cities.values],
+             padding=4, fontsize=8, fontweight='bold')
+ax.set_title(f'Top 10 Cities by Driver Count\n(Total: {df["City"].nunique()} unique cities)')
+ax.set_xlabel('City Code'); ax.set_ylabel('Count')
+ax.tick_params(axis='x', rotation=45)
+
+plt.tight_layout(); plt.show()
