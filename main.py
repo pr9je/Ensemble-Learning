@@ -1,5 +1,9 @@
 # impoort necessary libraries
 # 
+# impoort necessary libraries
+#
+# impoort necessary libraries
+#
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -9,7 +13,20 @@ import warnings
 warnings.filterwarnings('ignore')
 %matplotlib inline
 
-#  Global style 
+from sklearn.impute        import KNNImputer
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import (
+    train_test_split, GridSearchCV, cross_val_score, StratifiedKFold)
+from sklearn.ensemble import (
+    RandomForestClassifier, GradientBoostingClassifier,
+    BaggingClassifier, AdaBoostClassifier)
+from sklearn.tree    import DecisionTreeClassifier
+from sklearn.metrics import (
+    classification_report, confusion_matrix, ConfusionMatrixDisplay,
+    roc_auc_score, roc_curve, accuracy_score, f1_score)
+from imblearn.over_sampling import SMOTE
+
+#  Global style
 plt.rcParams.update({
     'figure.facecolor' : '#F8FAFC',
     'axes.facecolor'   : '#F8FAFC',
@@ -30,7 +47,6 @@ RED    = '#EF4444'
 PURPLE = '#8B5CF6'
 PAL    = [BLUE, AMBER, GREEN, RED, PURPLE, '#F97316']
 sns.set_palette(PAL)
-print('✅ Libraries loaded')
 
 
 # Load dataset
@@ -419,3 +435,26 @@ ax.set_xlabel('Month'); ax.set_ylabel('Record Count')
 ax.tick_params(axis='x', rotation=45)
 
 plt.tight_layout(); plt.show()
+
+
+# Checking identical rows
+exact_dups = df.duplicated().sum()
+print(f'Exact duplicate rows: {exact_dups}')
+
+# Same driver appearing more than once in same month
+subset_dups = df.duplicated(subset=['Driver_ID','MMM-YY']).sum()
+print(f'Driver + MOnth duplicates : {subset_dups}')
+
+# Driver Id appearing in multiple months
+records_per_driver = df.groupby('Driver_ID').size()
+print(f'\nRecords per driver (expected multiple months):')
+print(f'  Min : {records_per_driver.min()}')
+print(f'  Max : {records_per_driver.max()}')
+print(f'  Mean: {records_per_driver.mean():.1f}')
+print(f'  Drivers with only 1 record: {(records_per_driver == 1).sum()}')
+
+# Missing value Treatment -- KNN imputation
+missing = df.isnull().sum()
+print(missing[missing > 0])
+print(f'\nNote: LastWorkingDate ({missing["LastWorkingDate"]:,} missing) is NOT imputed —')
+print('      it is missing because the driver is still working (retained). Used to create target.')
