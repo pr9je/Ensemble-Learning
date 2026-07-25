@@ -109,47 +109,6 @@ shap==0.42         # Feature importance explainability
 # Evaluation
 scipy==1.10        # Statistical tests
 ```
-
----
-
-## 🚀 How to Run
-
-**1. Clone the repository**
-```bash
-git clone https://github.com/pr9je/Ensemble-Learning.git
-cd Ensemble-Learning
-```
-
-**2. Install dependencies**
-```bash
-pip install -r requirements.txt
-```
-
-**3. Run the notebook**
-```bash
-jupyter notebook Ola_Driver_Attrition.ipynb
-```
-
-Or open directly in **Google Colab** — click below:
-
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/pr9je/Ensemble-Learning/blob/main/Ola_Driver_Attrition.ipynb)
-
----
-
-## 📁 Repository Structure
-
-```
-Ensemble-Learning/
-│
-├── 📓 Ola_Driver_Attrition.ipynb   # Main analysis notebook
-├── 📄 README.md                     # This file
-├── 📋 requirements.txt              # Python dependencies
-├── 📁 data/
-│   └── ola_driver_data.csv         # Dataset (or link if large)
-└── 📁 images/
-    └── *.png                        # Output plots and charts
-```
-
 ---
 
 ## 💡 Business Recommendations
