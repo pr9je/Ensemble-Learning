@@ -90,44 +90,6 @@ Evaluation
 Feature Importance (SHAP)
    └── Business recommendations
 ```
-
----
-
-## 📈 Model Comparison Results
-
-| Model | AUC Score | Accuracy | Precision | Recall |
-|---|---|---|---|---|
-| Random Forest | 0.87 | 83% | 0.81 | 0.79 |
-| AdaBoost | 0.84 | 80% | 0.78 | 0.76 |
-| Gradient Boosting | 0.89 | 85% | 0.83 | 0.82 |
-| **XGBoost** | **0.91** | **87%** | **0.85** | **0.84** |
-| Stacking Classifier | 0.90 | 86% | 0.84 | 0.83 |
-
-> ⚠️ *Note: Replace these with your actual model results from the notebook.*
-
-**Why XGBoost won:** Handles class imbalance better via `scale_pos_weight`, captures non-linear feature interactions, and is more robust to noisy features than Gradient Boosting alone.
-
----
-
-## 🖼️ Visualisations
-
-> *Add your actual plots here. Example placeholders:*
-
-```
-📁 images/
-   ├── eda_rating_distribution.png
-   ├── eda_income_vs_churn.png
-   ├── model_comparison_auc.png
-   ├── confusion_matrix_xgboost.png
-   ├── roc_curve_all_models.png
-   └── shap_feature_importance.png
-```
-
-**To add images to README:**
-```markdown
-![Feature Importance](images/shap_feature_importance.png)
-```
-
 ---
 
 ## 🛠️ Tech Stack
@@ -224,12 +186,6 @@ Ex-Associate Engineer R&D, Blue Star Ltd.
 [![GitHub](https://img.shields.io/badge/GitHub-pr9je-black?style=flat&logo=github)](https://github.com/pr9je)
 [![Portfolio](https://img.shields.io/badge/Portfolio-pr9je.github.io-green?style=flat)](https://pr9je.github.io)
 [![Email](https://img.shields.io/badge/Email-miteshprajapati936%40gmail.com-red?style=flat&logo=gmail)](mailto:miteshprajapati936@gmail.com)
-
----
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
