@@ -464,3 +464,19 @@ gender_missing_idx = df['Gender'].isna()
 
 print(f'Age   missing: {age_missing_idx.sum()} rows → indices: {df[age_missing_idx].index[:5].tolist()} ...')
 print(f'Gender missing: {gender_missing_idx.sum()} rows')
+
+num_impute_cols = [
+    'Age', 'Gender', 'Income', 'Education_Level',
+    'Joining Designation', 'Grade',
+    'Total Business Value', 'Quarterly Rating'
+]
+
+imputer = KNNImputer(n_neighbors=5)
+df[num_impute_cols] = imputer.fit_transform(df[num_impute_cols])
+df[num_impute_cols]
+# Round Gender back to 0 or 1 (binary variable — KNN may give 0.4, 0.8 etc.)
+df['Gender'] = df['Gender'].round().astype(int)
+
+print('=== Missing Values AFTER KNN Imputation ===')
+print(df[num_impute_cols].isnull().sum())
+print('\n All missing values filled — zero nulls in numerical columns')
