@@ -527,3 +527,54 @@ for col in ['Age', 'Income', 'Total Business Value']:
     pct   = n_out / len(data) * 100
     print(f'{col:<25} {data.min():>12.0f} {data.max():>12.0f} {Q1:>10.0f} {Q3:>10.0f} '
           f'{n_out:>5} ({pct:.1f}%)  {outlier_actions[col]}')
+
+# ── Visualise outliers: before vs after capping ───────────────────────────────
+fig, axes = plt.subplots(2, 2, figsize=(14, 10))
+fig.suptitle('Outlier Treatment — Total Business Value', fontsize=13, fontweight='bold')
+
+# Before: histogram
+ax = axes[0, 0]
+ax.hist(df['Total Business Value'], bins=50, color=AMBER, edgecolor='white', alpha=0.8)
+ax.set_title('TBV Histogram — BEFORE Capping')
+ax.set_xlabel('Total Business Value (₹)'); ax.set_ylabel('Frequency')
+ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'₹{x/1e6:.1f}M'))
+
+# Before: boxplot
+ax = axes[0, 1]
+bp = ax.boxplot(df['Total Business Value'], patch_artist=True,
+                boxprops=dict(facecolor=AMBER, alpha=0.6),
+                medianprops=dict(color='black', lw=2),
+                flierprops=dict(marker='o', markerfacecolor=RED, markersize=3, alpha=0.4))
+ax.set_title('TBV Boxplot — BEFORE Capping')
+ax.set_ylabel('Total Business Value (₹)')
+ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'₹{x/1e6:.1f}M'))
+
+# ── Apply Winsorization: cap at 1st–99th percentile ──────────────────────────
+p1  = df['Total Business Value'].quantile(0.01)
+p99 = df['Total Business Value'].quantile(0.99)
+tbv_before = df['Total Business Value'].copy()   # keep original for plot
+df['Total Business Value'] = df['Total Business Value'].clip(lower=p1, upper=p99)
+
+print(f'Capped at: lower = ₹{p1:,.0f} (1st percentile)')
+print(f'           upper = ₹{p99:,.0f} (99th percentile)')
+print(f'Range before: ₹{tbv_before.min():,.0f} → ₹{tbv_before.max():,.0f}')
+print(f'Range after : ₹{df["Total Business Value"].min():,.0f} → ₹{df["Total Business Value"].max():,.0f}')
+
+# After: histogram
+ax = axes[1, 0]
+ax.hist(df['Total Business Value'], bins=50, color=GREEN, edgecolor='white', alpha=0.8)
+ax.set_title('TBV Histogram — AFTER Capping (1st–99th pct)')
+ax.set_xlabel('Total Business Value (₹)'); ax.set_ylabel('Frequency')
+ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'₹{x/1e6:.1f}M'))
+
+# After: boxplot
+ax = axes[1, 1]
+bp = ax.boxplot(df['Total Business Value'], patch_artist=True,
+                boxprops=dict(facecolor=GREEN, alpha=0.6),
+                medianprops=dict(color='black', lw=2),
+                flierprops=dict(marker='o', markerfacecolor=RED, markersize=3, alpha=0.4))
+ax.set_title('TBV Boxplot — AFTER Capping')
+ax.set_ylabel('Total Business Value (₹)')
+ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'₹{x/1e6:.1f}M'))
+
+plt.tight_layout(); plt.show()
