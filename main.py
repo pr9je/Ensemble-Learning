@@ -458,3 +458,9 @@ missing = df.isnull().sum()
 print(missing[missing > 0])
 print(f'\nNote: LastWorkingDate ({missing["LastWorkingDate"]:,} missing) is NOT imputed —')
 print('      it is missing because the driver is still working (retained). Used to create target.')
+
+age_missing_idx    = df['Age'].isna()
+gender_missing_idx = df['Gender'].isna()
+
+print(f'Age   missing: {age_missing_idx.sum()} rows → indices: {df[age_missing_idx].index[:5].tolist()} ...')
+print(f'Gender missing: {gender_missing_idx.sum()} rows')
