@@ -480,3 +480,30 @@ df['Gender'] = df['Gender'].round().astype(int)
 print('=== Missing Values AFTER KNN Imputation ===')
 print(df[num_impute_cols].isnull().sum())
 print('\n All missing values filled — zero nulls in numerical columns')
+
+# Visualise before vs after for age.
+# We compare imputed age vs overalll distribution to verify quality.
+fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+fig.suptitle('KNN Imputation Quality Check — Age', fontsize=13, fontweight='bold')
+
+# Left: full age distribution after imputation
+ax = axes[0]
+ax.hist(df['Age'], bins=35, color=BLUE, edgecolor='white', alpha=0.8, label='All ages (post-imputation)')
+# Mark imputed values
+imputed_ages = df.loc[age_missing_idx, 'Age']
+ax.hist(imputed_ages, bins=20, color=RED, edgecolor='white', alpha=0.7, label=f'Imputed values (n={len(imputed_ages)})')
+ax.axvline(df['Age'].mean(), color='black', lw=2, ls='--', label=f'Mean={df["Age"].mean():.1f}')
+ax.set_title('Age Distribution — Imputed values highlighted')
+ax.set_xlabel('Age'); ax.set_ylabel('Count')
+ax.legend(fontsize=9)
+
+# Right: gender count before vs after
+ax = axes[1]
+vc_gender = df['Gender'].value_counts().sort_index()
+bars = ax.bar(['Male (0)', 'Female (1)'], vc_gender.values, color=[BLUE, PURPLE], edgecolor='white', width=0.5)
+ax.bar_label(bars, labels=[f'{v:,}\n({v/len(df)*100:.1f}%)' for v in vc_gender.values],
+             padding=4, fontsize=11, fontweight='bold')
+ax.set_title(f'Gender Distribution After Imputation\n(52 missing values filled)')
+ax.set_ylabel('Count'); ax.set_ylim(0, max(vc_gender.values)*1.2)
+
+plt.tight_layout(); plt.show()
