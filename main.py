@@ -507,3 +507,23 @@ ax.set_title(f'Gender Distribution After Imputation\n(52 missing values filled)'
 ax.set_ylabel('Count'); ax.set_ylim(0, max(vc_gender.values)*1.2)
 
 plt.tight_layout(); plt.show()
+
+#  IQR-based outlier detection for all 3 numerical columns
+print('=== Outlier Analysis — IQR Method (1.5×IQR Rule) ===')
+print(f'{"Column":<25} {"Min":>12} {"Max":>12} {"Q1":>10} {"Q3":>10} {"Outliers":>10} {"Action"}')
+print('─'*100)
+
+outlier_actions = {
+    'Age'                 : 'RETAIN — ages 21–58 are all realistic driver ages',
+    'Income'              : 'RETAIN — high earners are genuine top performers',
+    'Total Business Value': 'CAP — extreme values distort model training'
+}
+
+for col in ['Age', 'Income', 'Total Business Value']:
+    data = df[col].astype(float)
+    Q1 = data.quantile(0.25); Q3 = data.quantile(0.75); IQR = Q3 - Q1
+    lower = Q1 - 1.5 * IQR;   upper = Q3 + 1.5 * IQR
+    n_out = ((data < lower) | (data > upper)).sum()
+    pct   = n_out / len(data) * 100
+    print(f'{col:<25} {data.min():>12.0f} {data.max():>12.0f} {Q1:>10.0f} {Q3:>10.0f} '
+          f'{n_out:>5} ({pct:.1f}%)  {outlier_actions[col]}')
