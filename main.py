@@ -578,3 +578,46 @@ ax.set_ylabel('Total Business Value (₹)')
 ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f'₹{x/1e6:.1f}M'))
 
 plt.tight_layout(); plt.show()
+
+# Feature Engineering
+# ── Sort by Driver_ID and date BEFORE aggregating ─────────────────────────────
+# Critical: first/last values only make sense when data is chronologically sorted
+df.sort_values(['Driver_ID', 'MMM-YY'], inplace=True)
+g = df.groupby('Driver_ID')
+
+# Build aggregated driver-level dataframe
+agg = pd.DataFrame({
+
+    # ── Static features: take FIRST known value (don't change over time) ──────
+    'Driver_ID'      : g['Driver_ID'].first().values,
+    'Age'            : g['Age'].first().values,
+    'Gender'         : g['Gender'].first().values,
+    'City'           : g['City'].first().values,
+    'Education_Level': g['Education_Level'].first().values,
+    'Joining_Desig'  : g['Joining Designation'].first().values,
+
+    # ── Grade: take LAST (most recent grade is most relevant) ─────────────────
+    'Grade_last'     : g['Grade'].last().values,
+
+    # ── Income: capture both endpoints + average ──────────────────────────────
+    'Income_first'   : g['Income'].first().values,   # will be used for trend flag
+    'Income_last'    : g['Income'].last().values,    # will be used for trend flag
+    'Income_mean'    : g['Income'].mean().values,    # kept as a model feature
+
+    # ── Total Business Value: mean and sum as productivity metrics ────────────
+    'TBV_mean'       : g['Total Business Value'].mean().values,
+    'TBV_sum'        : g['Total Business Value'].sum().values,
+
+    # ── Quarterly Rating: capture both endpoints for trend detection ──────────
+    'QR_first'       : g['Quarterly Rating'].first().values,
+    'QR_last'        : g['Quarterly Rating'].last().values,
+
+    # ── Dates: needed for feature engineering below ───────────────────────────
+    'Dateofjoining'  : g['Dateofjoining'].first().values,
+    'LastWorkingDate': g['LastWorkingDate'].first().values,
+})
+
+print(f'✅ Aggregated: {len(df):,} monthly rows → {len(agg):,} unique drivers')
+print(f'   Shape: {agg.shape}')
+agg.head(4)
+
