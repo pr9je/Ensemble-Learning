@@ -38,3 +38,16 @@ print(f'  Dataset shape : {df.shape[0]:,} rows x {df.shape[1]} columns')
 print(f'  Unique Drivers: {df['Driver_ID'].nunique():,}')
 print(f'  Avg records per driver: {df.shape[0]/df['Driver_ID'].nunique():.1f} months')
 
+
+# Convert date columns to datetime:
+date_cols = ['MMM-YY', 'Dateofjoining', 'LastWorkingDate']
+for col in date_cols:
+  df[col] = pd.to_datetime(df[col], format='mixed', dayfirst=True, errors='coerce')
+
+# convert categorical columns to category dtype.
+cat_cols = ['Gender', 'City', 'Education_Level', 'Grade', 'Joining Designation']
+for col in cat_cols:
+  df[col] = df[col].astype('category')
+
+# check dtypes
+print(df.dtypes)
