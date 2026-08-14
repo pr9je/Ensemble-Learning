@@ -51,3 +51,9 @@ for col in cat_cols:
 
 # check dtypes
 print(df.dtypes)
+
+# missing values detections.
+missing = df.isnull().sum()
+missing_pct = (missing / len(df) * 100).round(2)
+missing_df = pd.DataFrame({'Missing Count': missing, 'Missing %': missing_pct})
+print(missing_df[missing_df['Missing Count'] > 0 ].sort_values('Missing Count',ascending=False))
