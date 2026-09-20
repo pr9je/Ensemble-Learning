@@ -147,5 +147,3 @@ Ex-Associate Engineer R&D, Blue Star Ltd.
 [![Email](https://img.shields.io/badge/Email-miteshprajapati936%40gmail.com-red?style=flat&logo=gmail)](mailto:miteshprajapati936@gmail.com)
 
 ---
-
-*⭐ If you found this project useful, consider giving it a star — it helps others discover the work.*
