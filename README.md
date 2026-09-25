@@ -1,9 +1,13 @@
 # 🚗 Ola Driver Attrition Prediction — Ensemble Learning
 
 ![Python](https://img.shields.io/badge/Python-3.9+-blue?style=flat&logo=python)
+
 ![Scikit-learn](https://img.shields.io/badge/Scikit--learn-1.3-orange?style=flat&logo=scikit-learn)
+
 ![XGBoost](https://img.shields.io/badge/XGBoost-1.7-red?style=flat)
+
 ![Status](https://img.shields.io/badge/Status-Complete-brightgreen?style=flat)
+
 ![Domain](https://img.shields.io/badge/Domain-HR%20Analytics-purple?style=flat)
 
 > **Can we predict which Ola drivers are likely to leave — before they do?**  
