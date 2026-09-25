@@ -98,7 +98,8 @@ Feature Importance (SHAP)
 
 ## 🛠️ Tech Stack
 
-```python
+```
+python
 # Core
 pandas==2.0        # Data manipulation
 numpy==1.24        # Numerical operations
@@ -130,13 +131,13 @@ Based on the model outputs and SHAP analysis:
 ---
 
 ## 🔮 Future Work
-
+'''
 - [ ] Deploy model as a REST API using FastAPI
 - [ ] Build a Streamlit dashboard for real-time driver risk scoring
 - [ ] Integrate SMOTE for class imbalance instead of class weighting
 - [ ] Test LightGBM and CatBoost as additional ensemble methods
 - [ ] Add time-series component — predict attrition within specific time window
-
+'''
 ---
 
 ## 👤 Author
