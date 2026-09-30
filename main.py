@@ -1,4 +1,12 @@
-
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+import matplotlib.ticker as mticker
+import seaborn as sns
+import warnings
+warnings.filterwarnings('ignore')
+%matplotlib inline
 
 from sklearn.impute          import KNNImputer
 from sklearn.preprocessing   import StandardScaler
